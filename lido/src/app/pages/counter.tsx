@@ -7,8 +7,10 @@ import {
 	CircularProgress,
 	Box,
 } from "@mui/material";
+import styles from "../page.module.css";
 import { styled } from "@mui/material/styles";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
+import ResultDisplay from "../components/resultDisplay";
 // import employeeForm from "../components/employeeForm";
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -30,6 +32,7 @@ export default function Counter() {
 	});
 
 	const [loaded, setLoaded] = useState(false);
+	const [counted, setCounted] = useState(false);
 
 	// This will run one time after the component mounts
 	useEffect(() => {
@@ -85,7 +88,7 @@ export default function Counter() {
 
 	const getEmployeeForm = (id: number) => {
 		return (
-			<div key={id}>
+			<div key={id} className={styles.margin5}>
 				<TextField
 					label="Name"
 					type="text"
@@ -94,19 +97,21 @@ export default function Counter() {
 					}}
 				/>
 				<TextField
+					required
 					label="Time"
 					type="number"
 					onChange={e => {
 						updateEmpState(id, "time", e);
 					}}
+					InputProps={{
+						inputProps: {
+							max: 100,
+							min: 0,
+						},
+					}}
 				/>
 			</div>
 		);
-	};
-
-	const splitMoney = (allMoneyEmp: number, totalE: number) => {
-		let diff = allMoneyEmp - totalE;
-		console.log(diff);
 	};
 
 	const count = (totalE: any, totalH: any) => {
@@ -129,6 +134,7 @@ export default function Counter() {
 				all: allesVonEinzeln,
 				rest: totals.totalEuro - allesVonEinzeln,
 			});
+			setCounted(true);
 		}
 	};
 
@@ -139,9 +145,10 @@ export default function Counter() {
 					<CircularProgress />
 				</Box>
 			) : (
-				<div>
+				<div className={styles.mainContainer}>
 					<h1>MOIN</h1>
 					<TextField
+						required
 						label="Total €"
 						type="number"
 						onChange={e => {
@@ -153,20 +160,30 @@ export default function Counter() {
 									€
 								</InputAdornment>
 							),
+							inputProps: {
+								max: 3000,
+								min: 0,
+							},
 						}}
 					/>
-					<Stack spacing={4}>
+					<div className={styles.container}>
 						{items.map((formItem, index) => {
 							return (
-								<div key={index}>
+								<div
+									key={index}
+									className={styles.inputContainer}>
 									{getEmployeeForm(formItem.id)}
 								</div>
 							);
 						})}
-						<Button onClick={addItem} variant="outlined">
+						<Button
+							className={styles.margin5}
+							onClick={addItem}
+							variant="outlined">
 							ADD
 						</Button>
 						<Button
+							className={styles.margin5}
 							onClick={() =>
 								count(
 									totals.totalEuro,
@@ -182,18 +199,23 @@ export default function Counter() {
 							{`${allMoneyGivenAndRest.all}`}
 						</div>
 						<div>Rest: {`${allMoneyGivenAndRest.rest}`}</div>
-						<div>
-							( {`${items.length}`} ) Employees:{" "}
-							{items.map(i => {
+					</div>
+					<>
+						{counted ? (
+							items.map(item => {
 								return (
-									<div key={"name-" + i.id}>
-										<span>{i.name}</span>
-										<br />
+									<div>
+										<ResultDisplay
+											name={item.name}
+											amount={item.money}
+										/>
 									</div>
 								);
-							})}
-						</div>
-					</Stack>
+							})
+						) : (
+							<div>NOTHING</div>
+						)}
+					</>
 				</div>
 			)}
 		</>
