@@ -73,6 +73,7 @@ export default function Counter() {
 	};
 
 	const updateTotals = (field: string, event: any) => {
+		setCounted(false);
 		if (field === "money") {
 			setTotals({
 				totalEuro: event.target.value,
