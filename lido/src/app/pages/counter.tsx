@@ -1,13 +1,4 @@
-import {
-	FormControl,
-	InputLabel,
-	Input,
-	FormHelperText,
-	Stack,
-	Paper,
-	Button,
-	TextField,
-} from "@mui/material";
+import { Stack, Paper, Button, TextField, InputAdornment } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
 // import employeeForm from "../components/employeeForm";
@@ -21,6 +12,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function Counter() {
+	const [totals, setTotals] = useState({ totalEuro: 0, totalHours: 0 });
 	const [items, setItems] = useState([{ id: 0, name: "", time: 0 }]);
 
 	const addItem = function () {
@@ -33,11 +25,30 @@ export default function Counter() {
 		if (field === "name") {
 			changedItem.name = event.target.value;
 		} else if (field === "time") {
-			changedItem.time = event.target.value;
+			itemsSpeicher[id].time = +event.target.value;
+			let t = 0;
+			itemsSpeicher.forEach(i => {
+				t = +t + +i.time;
+			});
+			setTotals({ totalEuro: totals.totalEuro, totalHours: t });
 		}
-		itemsSpeicher[id] = changedItem;
 		setItems(itemsSpeicher);
 	};
+
+	const updateTotals = (field: string, event: any) => {
+		if (field === "money") {
+			setTotals({
+				totalEuro: event.target.value,
+				totalHours: totals.totalHours,
+			});
+		} else if (field === "hours") {
+			setTotals({
+				totalEuro: totals.totalEuro,
+				totalHours: event.target.value,
+			});
+		}
+	};
+
 	const getEmployeeForm = (id: number) => {
 		return (
 			<div key={id}>
@@ -61,6 +72,22 @@ export default function Counter() {
 	return (
 		<>
 			<h1>MOIN</h1>
+			<div>
+				<TextField
+					label="Total €"
+					type="number"
+					onChange={e => {
+						updateTotals("money", e);
+					}}
+					InputProps={{
+						startAdornment: (
+							<InputAdornment position="start">
+								€
+							</InputAdornment>
+						),
+					}}
+				/>
+			</div>
 			<Stack spacing={2}>
 				{items.map((formItem, index) => {
 					return (
@@ -72,6 +99,10 @@ export default function Counter() {
 				<Button onClick={addItem} variant="outlined">
 					ADD
 				</Button>
+				<Button onClick={addItem} variant="outlined">
+					Count
+				</Button>
+				<div>Total hours: {`${totals.totalHours}`}</div>
 			</Stack>
 		</>
 	);
