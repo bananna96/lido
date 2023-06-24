@@ -21,9 +21,8 @@ export default function Counter() {
 	const updateEmpState = (id: number, field: string, event: any) => {
 		// TODO: shorter / less code?
 		let itemsSpeicher = [...items];
-		let changedItem = { ...items[id] };
 		if (field === "name") {
-			changedItem.name = event.target.value;
+			itemsSpeicher[id].name = event.target.value;
 		} else if (field === "time") {
 			itemsSpeicher[id].time = +event.target.value;
 			let t = 0;
@@ -88,7 +87,7 @@ export default function Counter() {
 					}}
 				/>
 			</div>
-			<Stack spacing={2}>
+			<Stack spacing={4}>
 				{items.map((formItem, index) => {
 					return (
 						<div key={index}>
@@ -103,6 +102,17 @@ export default function Counter() {
 					Count
 				</Button>
 				<div>Total hours: {`${totals.totalHours}`}</div>
+				<div>
+					( {`${items.length}`} ) Employees:{" "}
+					{items.map(i => {
+						return (
+							<div key={"name-" + i.id}>
+								<span>{i.name}</span>
+								<br />
+							</div>
+						);
+					})}
+				</div>
 			</Stack>
 		</>
 	);
