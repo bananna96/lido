@@ -1,26 +1,31 @@
 {
-  "name": "lido",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0",
-    "@mui/material": "^5.13.5",
-    "@types/body-parser": "^1.19.2",
-    "@types/node": "20.3.1",
-    "@types/react": "18.2.12",
-    "@types/react-dom": "18.2.5",
-    "eslint": "8.42.0",
-    "eslint-config-next": "13.4.6",
-    "next": "13.4.6",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "typescript": "5.1.3"
-  }
+	"name": "lido",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"predeploy": "npm run build",
+		"deploy": "gh-pages -d build",
+		"lint": "next lint"
+	},
+	"dependencies": {
+		"@emotion/react": "^11.11.1",
+		"@emotion/styled": "^11.11.0",
+		"@mui/material": "^5.13.5",
+		"@types/body-parser": "^1.19.2",
+		"@types/node": "20.3.1",
+		"@types/react": "18.2.12",
+		"@types/react-dom": "18.2.5",
+		"eslint": "8.42.0",
+		"eslint-config-next": "13.4.6",
+		"next": "13.4.6",
+		"react": "18.2.0",
+		"react-dom": "18.2.0",
+		"typescript": "5.1.3"
+	},
+	"devDependencies": {
+		"gh-pages": "^5.0.0"
+	}
 }
