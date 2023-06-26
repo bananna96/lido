@@ -227,6 +227,20 @@
 		transform: rotate(0deg);
 	}
 }
+/* Nav */
+.appBar,
+.toolBar {
+	height: 65px !important;
+}
+
+.appBar {
+	background-color: #2b0006;
+}
+
+.toolBar {
+	justify-content: center;
+}
+/*  */
 
 /* COUNTER */
 .mainContainer {
@@ -234,6 +248,7 @@
 	flex-direction: column;
 	align-items: center;
 	width: 100%;
+	margin-top: 70px;
 }
 
 .container {
@@ -251,6 +266,28 @@
 }
 .margin5 {
 	margin: 5px;
+}
+
+.typoContainer {
+	display: flex;
+	width: 100%;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.card {
+	width: 35% !important;
+}
+
+.infoTableContainer {
+	width: 40%;
+	display: flex;
+	justify-content: center;
+}
+.buttonContainer {
+	display: flex;
+	justify-content: space-between;
+	width: 50%;
 }
 
 /* END COUNTER STYLES */

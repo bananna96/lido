@@ -1,25 +1,17 @@
 import {
-	Stack,
 	Paper,
 	Button,
 	TextField,
 	InputAdornment,
 	CircularProgress,
 	Box,
+	Card,
+	CardContent,
+	Typography,
 } from "@mui/material";
 import styles from "../page.module.css";
 import { styled } from "@mui/material/styles";
-import { Fragment, useEffect, useState } from "react";
-import ResultDisplay from "../components/resultDisplay";
-// import employeeForm from "../components/employeeForm";
-
-const Item = styled(Paper)(({ theme }) => ({
-	backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-	...theme.typography.body2,
-	padding: theme.spacing(1),
-	textAlign: "center",
-	color: theme.palette.text.secondary,
-}));
+import { useEffect, useState } from "react";
 
 export default function Counter() {
 	const [totals, setTotals] = useState({ totalEuro: 0, totalHours: 0 });
@@ -132,8 +124,10 @@ export default function Counter() {
 		} else {
 			setItems(itemsSpeicher);
 			setAllMoneyGivenAndRest({
-				all: allesVonEinzeln,
-				rest: totals.totalEuro - allesVonEinzeln,
+				all: Number(allesVonEinzeln.toFixed(2)),
+				rest: Number(
+					(totals.totalEuro - allesVonEinzeln).toFixed(2)
+				),
 			});
 			setCounted(true);
 		}
@@ -147,7 +141,6 @@ export default function Counter() {
 				</Box>
 			) : (
 				<div className={styles.mainContainer}>
-					<h1>MOIN</h1>
 					<TextField
 						required
 						label="Total €"
@@ -177,44 +170,83 @@ export default function Counter() {
 								</div>
 							);
 						})}
-						<Button
-							className={styles.margin5}
-							onClick={addItem}
-							variant="outlined">
-							ADD
-						</Button>
-						<Button
-							className={styles.margin5}
-							onClick={() =>
-								count(
-									totals.totalEuro,
-									totals.totalHours
-								)
-							}
-							variant="outlined">
-							Count
-						</Button>
-						<div>Total hours: {`${totals.totalHours}`}</div>
-						<div>
-							Total Money splitted:{" "}
-							{`${allMoneyGivenAndRest.all}`}
+						<div className={styles.buttonContainer}>
+							<Button
+								className={styles.margin5}
+								onClick={addItem}
+								variant="outlined">
+								ADD
+							</Button>
+							<Button
+								className={styles.margin5}
+								onClick={() =>
+									count(
+										totals.totalEuro,
+										totals.totalHours
+									)
+								}
+								variant="outlined">
+								Count
+							</Button>
 						</div>
-						<div>Rest: {`${allMoneyGivenAndRest.rest}`}</div>
+						<div className={styles.infoTableContainer}>
+							<table>
+								<tr>
+									<td>Total hours:</td>
+									<td> </td>
+									<td>{`${totals.totalHours}`}</td>
+								</tr>
+								<tr>
+									<td>Total Money splitted:</td>
+									<td> </td>
+									<td>
+										{`${allMoneyGivenAndRest.all} `}
+										€
+									</td>
+								</tr>
+								<tr>
+									<td>Rest:</td>
+									<td> </td>
+									<td>
+										{`${allMoneyGivenAndRest.rest} `}
+										€
+									</td>
+								</tr>
+							</table>
+						</div>
 					</div>
 					<>
 						{counted ? (
-							items.map(item => {
-								return (
-									<div>
-										<ResultDisplay
-											name={item.name}
-											amount={item.money}
-										/>
-									</div>
-								);
-							})
+							<Card
+								raised
+								className={styles.card}
+								variant="outlined">
+								<CardContent>
+									{items.map(item => {
+										return (
+											<div
+												key={item.id}
+												className={
+													styles.typoContainer
+												}>
+												<Typography
+													variant="h6"
+													component="div">
+													{item.name}
+												</Typography>
+												<p> </p>
+												<Typography
+													variant="h6"
+													component="div">
+													{item.money}€
+												</Typography>
+											</div>
+										);
+									})}
+								</CardContent>
+							</Card>
 						) : (
-							<div>NOTHING</div>
+							<div>. . .</div>
 						)}
 					</>
 				</div>
